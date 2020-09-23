@@ -1,0 +1,26 @@
+[core]
+    editor = vim
+
+[alias]
+ 	# View abbreviated SHA, description, and history graph of the latest 20 commits.
+    l = log --pretty=oneline -n 20 --graph --abbrev-commit
+
+    # Just pulls 
+    pl = pull
+    ps = push
+
+    branches = branch --all
+
+    amend = commit --amend --reuse-message=HEAD
+
+    co = checkout
+    st = status -sb
+    br = branch
+    ci = commit
+    a = add
+
+[color]
+
+	# Use colors in Git commands that are capable of colored output when
+	# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
+	ui = auto
