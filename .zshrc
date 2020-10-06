@@ -121,6 +121,8 @@ alias py="python3 "
 alias open="xdg-open"
 alias leng="cd /home/tomm/Desktop/U/Lenguajes/CC4101/2002" 
 alias config='/usr/bin/git --git-dir=/home/tomm/.cfg/ --work-tree=/home/tomm'
+alias afk='xdg-screensaver lock'
+alias ct='./ct.sh '
 
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
         source /etc/profile.d/vte.sh
