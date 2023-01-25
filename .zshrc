@@ -6,17 +6,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # If you come from bash you might have to change your $PATH.
-export MANPATH=$MANPATH:/usr/local/texlive/2020/texmf-dist/doc/man
-export INFOPATH=$INFOPAHT:/usr/local/texlive/2020/texmf-dist/doc/info
-
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # add go to path
-export PATH=$PATH:/usr/local/go/bin
-export PATH=/usr/local/texlive/2020/bin/x86_64-linux:$PATH
-# add JAVA_HOME var 
-JAVA_HOME="/usr/lib/jdk-11.0.6"
 
+# add JAVA_HOME var 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/tomm/.oh-my-zsh"
 
@@ -114,15 +108,29 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias sem="cd /home/tomm/Desktop/U/10"
-alias aux="cd /home/tomm/Desktop/U/Metodologias"
-alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get autoremove"
+alias sem="cd /home/tomm/Desktop/U/13"
+alias cq="cd /home/tomm/Desktop/coq"
+alias update="update-apt-get && update-apt"
+alias update-apt-get="sudo apt-get update && sudo apt-get upgrade && sudo apt-get autoremove"
+alias update-apt="sudo apt update && sudo apt upgrade && sudo apt autoremove"
 alias py="python3 "
 alias open="xdg-open"
-alias leng="cd /home/tomm/Desktop/U/Lenguajes/CC4101/2002" 
+alias leng="cd /home/tomm/Desktop/U/Lenguajes/CC4101/2202" 
 alias config='/usr/bin/git --git-dir=/home/tomm/.cfg/ --work-tree=/home/tomm'
 alias afk='xdg-screensaver lock'
-alias ct='./ct.sh '
+alias fs='nautilus .'
+alias thesis='cd /home/tomm/Desktop/U/Magister/MSc-thesis'
+alias rdf='cd /home/tomm/Desktop/U/Magister/rdf-model'
+alias ind='cd /home/tomm/Desktop/U/Magister/mutual_nested_induction'
+alias mag='cd /home/tomm/Desktop/U/Magister'
+alias clean="sudo journalctl --vacuum-time=3d && \
+    set -eu && \
+    snap list --all | awk '/disabled/{print $1, $3}' |
+    while read snapname revision; do
+        snap remove "$snapname" --revision="$revision"
+    done"
+#alias audio='pulseaudio -k && sudo alsa force-reload'
+alias audio='pulseaudio -k'
 
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
         source /etc/profile.d/vte.sh
@@ -132,6 +140,3 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# OPAM configuration
-. /home/tomm/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
