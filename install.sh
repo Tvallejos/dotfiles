@@ -1,63 +1,38 @@
 #!/bin/bash
 
-backup() {
-  target=$1
-  if [ -e "$target" ]; then           # Does the config file already exist?
-    if [ ! -L "$target" ]; then       # as a pure file?
-      mv "$target" "$target.backup"   # Then backup it
-      echo "-----> Moved your old $target config file to $target.backup"
-    fi
-  fi
-}
+sudo apt install vim
 
-#!/bin/zsh 
-# translate this to bash
-#for name in *; do
-#  if [ ! -d "$name" ]; then
-#    target="$HOME/.$name"
-#    if [[ ! "$name" =~ '\.sh$' ]] && [ "$name" != 'README.md' ] && [[ ! "$name" =~ '\.sublime-settings$' ]]; then
-#      backup $target
-#
-#      if [ ! -e "$target" ]; then
-#        echo "-----> Symlinking your new $target"
-#        ln -s "$PWD/$name" "$target"
-#      fi
-#    fi
-#  fi
-#done
-
-#install git
-sudo apt -y install git
-#setup git
-# call git_install.sh
-. ./git_install.sh
-
-chsh -s $()
-
-#install zsh
-sudo apt -y install zsh
-#install ohmyzsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-#install powerline 10
+# install zsh oh-my-zsh and powerline
+sudo apt install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
-#install vim
-sudo apt -y install vim
+# install zulip
+sudo curl -fL -o /etc/apt/trusted.gpg.d/zulip-desktop.asc \\n    https://download.zulip.com/desktop/apt/zulip-desktop.asc\necho "deb https://download.zulip.com/desktop/apt stable main" | \\n    sudo tee /etc/apt/sources.list.d/zulip-desktop.list\nsudo apt update\nsudo apt install zulip
 
-#install pathogen
-mkdir -p ~/.vim/autoload ~/.vim/bundle && \
-curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+# create ssh-key
+ssh-keygen -t ed25519 -C ""
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub
 
-#install plugins
+# install some dep
+sudo apt install gcc make bubblewrap
 
-#vim_pluguins = [
-#  haskell-vim,
-#  nerdtree,
-#  syntastic,
-#  vim-markdown-preview,
-#  vim-ocaml,
-#  vim-racket,
-#  vim-scribble,
-#  Vundle.vim,
-#  ]
+# install emacs then spacemacs
+sudo apt build-dep emacs
+curl -XGET -O https://ftp.gnu.org/pub/gnu/emacs/emacs-27.1.tar.xz 
+tar -axvf emacs-27.1.tar.xz
+cd emacs-27.1/
+./configure
+make
+git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+
+# install opam create switch with coq 8.14.0 and mathcomp
+bash -c "sh <(curl -fsSL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh)"
+opam init
+opam switch create coq-4.15 4.12.0
+eval $(opam env)
+
+opam pin add coq 8.14.0
+opam repo add coq-released https://coq.inria.fr/opam/released\nopam install coq-mathcomp-ssreflect
